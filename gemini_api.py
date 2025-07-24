@@ -7,7 +7,7 @@ import streamlit as st # Used for st.error in query_model, but could be passed a
 # with your actual Google Cloud API Key.
 # If running within a Canvas-like environment that injects the key, leave it as an empty string.
 # DO NOT COMMIT YOUR API KEY TO PUBLIC REPOSITORIES!
-API_KEY = "AIzaSyDjsXXtV5blSKMR0u7V7OJVPJu7lAjkjCw" # Replace with your actual key if running locally
+API_KEY =  # Replace with your actual key if running locally
 
 # Gemini API endpoint for gemini-2.0-flash
 API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
