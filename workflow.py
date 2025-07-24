@@ -13,15 +13,18 @@ from prompts import (
     format_final_response_prompt,
     format_refine_idea_prompt,
     format_follow_up_question_prompt,
-    format_search_queries_prompt # New import
+    format_search_queries_prompt
 )
 from chemical_lookup import fetch_chemical_info
+from pdf_processor import get_combined_uploaded_text # New import
 
 def generate_research_ideas_from_ai(topic, goal, data):
     """
     Calls the AI model to generate research ideas and parses them into a list.
+    Includes uploaded text context.
     """
-    prompt = format_research_ideas_prompt(topic, goal, data)
+    uploaded_text_context = get_combined_uploaded_text()
+    prompt = format_research_ideas_prompt(topic, goal, data, uploaded_text_context)
     raw_ideas_text = query_model(prompt)
 
     if "⚠️ Error:" in raw_ideas_text:
@@ -38,8 +41,10 @@ def generate_research_ideas_from_ai(topic, goal, data):
 def refine_single_idea_from_ai(original_idea, refinement_feedback, topic, goal, data):
     """
     Calls the AI model to refine a single research idea based on feedback.
+    Includes uploaded text context.
     """
-    prompt = format_refine_idea_prompt(original_idea, refinement_feedback, topic, goal, data)
+    uploaded_text_context = get_combined_uploaded_text()
+    prompt = format_refine_idea_prompt(original_idea, refinement_feedback, topic, goal, data, uploaded_text_context)
     refined_idea_text = query_model(prompt)
     if "⚠️ Error:" in refined_idea_text:
         st.error(refined_idea_text)
@@ -49,8 +54,10 @@ def refine_single_idea_from_ai(original_idea, refinement_feedback, topic, goal, 
 def answer_follow_up_question_from_ai(approved_idea, literature_summary, properties, user_question):
     """
     Calls the AI model to answer a follow-up question based on the current context.
+    Includes uploaded text context.
     """
-    prompt = format_follow_up_question_prompt(approved_idea, literature_summary, properties, user_question)
+    uploaded_text_context = get_combined_uploaded_text()
+    prompt = format_follow_up_question_prompt(approved_idea, literature_summary, properties, user_question, uploaded_text_context)
     response = query_model(prompt)
     if "⚠️ Error:" in response:
         st.error(response)
@@ -60,8 +67,10 @@ def answer_follow_up_question_from_ai(approved_idea, literature_summary, propert
 def suggest_search_queries_from_ai(research_idea, literature_summary):
     """
     Calls the AI model to suggest search queries based on the research idea and summary.
+    Includes uploaded text context.
     """
-    prompt = format_search_queries_prompt(research_idea, literature_summary)
+    uploaded_text_context = get_combined_uploaded_text()
+    prompt = format_search_queries_prompt(research_idea, literature_summary, uploaded_text_context)
     raw_queries_text = query_model(prompt)
 
     if "⚠️ Error:" in raw_queries_text:
@@ -79,8 +88,10 @@ def suggest_search_queries_from_ai(research_idea, literature_summary):
 def generate_literature_summary_from_ai(idea):
     """
     Calls the AI model to generate a literature summary.
+    Includes uploaded text context.
     """
-    prompt = format_literature_summary_prompt(idea)
+    uploaded_text_context = get_combined_uploaded_text()
+    prompt = format_literature_summary_prompt(idea, uploaded_text_context)
     summary = query_model(prompt)
     if "⚠️ Error:" in summary:
         st.error(summary)
