@@ -10,13 +10,14 @@ from workflow import (
     generate_research_ideas_from_ai,
     refine_single_idea_from_ai,
     answer_follow_up_question_from_ai,
-    suggest_search_queries_from_ai, # New import
+    suggest_search_queries_from_ai,
     generate_literature_summary_from_ai,
     generate_properties_from_ai,
     compile_final_response_from_ai,
     perform_chemical_lookup
 )
 from database import load_search_history, save_search_history, delete_search_history_entry, clear_all_search_history
+from pdf_processor import extract_text_from_pdf, get_combined_uploaded_text
 
 
 def render_input_details_stage():
@@ -65,6 +66,49 @@ def render_input_details_stage():
         placeholder="e.g., Initial screening results of metal-organic frameworks (MOFs) showing some catalytic activity, spectroscopic data of degraded plastic samples.",
         key="input_data"
     )
+
+    st.markdown("---")
+    st.subheader("Upload Research Papers (Optional)")
+    uploaded_files = st.file_uploader(
+        "Upload PDF research papers for AI to use as reference:",
+        type=["pdf"],
+        accept_multiple_files=True,
+        key="pdf_uploader"
+    )
+
+    # Process newly uploaded files
+    if uploaded_files:
+        current_uploaded_names = {p['name'] for p in st.session_state.uploaded_papers_data}
+        new_files_uploaded = False # Flag to check if any new file was processed
+        for uploaded_file in uploaded_files:
+            if uploaded_file.name not in current_uploaded_names:
+                with st.spinner(f"Extracting text from {uploaded_file.name}..."):
+                    extracted_text = extract_text_from_pdf(uploaded_file)
+                    if not "Error extracting text" in extracted_text:
+                        st.session_state.uploaded_papers_data.append({
+                            'name': uploaded_file.name,
+                            'extracted_text': extracted_text
+                        })
+                        st.success(f"Successfully extracted text from '{uploaded_file.name}'.")
+                        new_files_uploaded = True
+                    else:
+                        st.error(f"Failed to extract text from '{uploaded_file.name}'. Please try another file.")
+        # Only rerun if new files were actually added to avoid excessive reruns
+        if new_files_uploaded:
+            st.rerun() # Keep rerun here to update the displayed list of uploaded papers immediately
+
+    # Display list of currently uploaded papers
+    if st.session_state.uploaded_papers_data:
+        st.markdown("**Currently Uploaded Papers:**")
+        for i, paper_info in enumerate(st.session_state.uploaded_papers_data):
+            st.write(f"- {paper_info['name']}")
+        
+        if st.button("Clear All Uploaded Papers", key="clear_uploaded_papers"):
+            st.session_state.uploaded_papers_data = []
+            st.success("All uploaded papers cleared.")
+            st.rerun()
+    st.markdown("---")
+
 
     col_buttons = st.columns(2)
     with col_buttons[0]:
@@ -343,8 +387,8 @@ def render_properties_prediction_stage():
             # Only show this warning/info if a lookup was attempted and failed
             st.warning("🔍 Compound not found in structured chemical databases.")
             query_encoded = quote(st.session_state.chemical_query_input)
-            pubchem_url = f"https://pubchem.ncbi.nlm.nih.gov/#query={query_encoded}"
-            wikidata_url = f"https://www.wikidata.org/w/index.php?search={query_encoded}"
+            pubchem_url = f"https://pubchem.ncbi.nlm.nih.gov/#query={encoded_query}"
+            wikidata_url = f"https://www.wikidata.org/w/index.php?search={encoded_query}"
 
             st.info(
                 "⚠️ This compound may still exist in scientific literature, but no structure or CID was found.\n\n"
