@@ -59,6 +59,10 @@ def initialize_session_state():
     if 'follow_up_response' not in st.session_state:
         st.session_state.follow_up_response = None
 
-    # New: Session state for AI-suggested search queries
+    # Session state for AI-suggested search queries
     if 'suggested_search_queries' not in st.session_state:
         st.session_state.suggested_search_queries = []
+
+    # New: Session states for uploaded research papers
+    if 'uploaded_papers_data' not in st.session_state:
+        st.session_state.uploaded_papers_data = [] # List of {'name': str, 'extracted_text': str}
