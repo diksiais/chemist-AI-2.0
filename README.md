@@ -1,39 +1,13 @@
 🔬 AI Research Agent for Chemists
 The AI Research Agent is a Streamlit-powered application designed to assist chemists and researchers in streamlining their research idea generation and preliminary literature review processes. Leveraging Google's Gemini Large Language Model, it helps users brainstorm novel research ideas, summarize existing literature, predict properties, and compile comprehensive research proposals. It also integrates with external chemical databases for structural lookups and provides tools for managing research history and exporting documents.
 
-✨ Features
-AI-Powered Idea Generation: Generate innovative research ideas based on your specified topic, goals, and existing data.
-
-Iterative Idea Refinement: Refine generated research ideas with specific feedback to guide the AI towards more focused or detailed concepts.
-
-Literature Summary Generation: Obtain concise literature summaries for approved research ideas, highlighting key existing research, methodologies, and gaps.
-
-Property Prediction & Experimental Approach: Get AI-suggested chemical properties or conceptual experimental approaches relevant to your research idea.
-
-Chemical Structure Lookup: Look up chemical structures and basic information (PubChem CID, image, source) for compounds by name or CAS number. Provides direct links to external databases if a structure isn't found.
-
-AI-Driven Follow-up Questions: Ask the AI specific questions related to the generated literature summary or property predictions for deeper insights.
-
-AI-Suggested Search Queries: Receive AI-generated keywords and search queries with direct links to academic databases (PubMed, Scopus, Google Scholar) to facilitate further literature review.
-
-Comprehensive Proposal Compilation: Automatically compile all generated information into a preliminary research proposal overview.
-
-Search History Management: Save your past research inputs and load them later. Includes options to clear all history or delete individual entries.
-
-Document Export: Download generated literature summaries and final research proposals as Microsoft Word (.docx) files.
-
-Image Download: Download fetched chemical structure images as .png files.
 
 🚀 How It Works (High-Level Workflow)
-Input Research Details: Provide your research topic, goal, and existing data.
-
-Generate & Review Ideas: The AI generates several research ideas. You can approve an idea or ask the AI to refine it based on your feedback.
-
-Literature Summary: For the approved idea, the AI generates a preliminary literature summary. At this stage, you can ask follow-up questions or get AI-suggested search queries.
-
-Property Prediction / Experimental Approach: The AI suggests potential chemical properties or outlines a conceptual experimental approach. You can also perform chemical structure lookups and ask follow-up questions here.
-
-Final Compilation: All generated content is compiled into a comprehensive research proposal overview, ready for download.
+1. Input Research Details: Provide your research topic, goal, and existing data.
+2. Generate & Review Ideas: The AI generates several research ideas. You can approve an idea or ask the AI to refine it based on your feedback.
+3. Literature Summary: For the approved idea, the AI generates a preliminary literature summary. At this stage, you can ask follow-up questions or get AI-suggested search queries.
+4. Property Prediction / Experimental Approach: The AI suggests potential chemical properties or outlines a conceptual experimental approach. You can also perform chemical structure lookups and ask follow-up questions here.
+5. Final Compilation: All generated content is compiled into a comprehensive research proposal overview, ready for download.
 
 ⚙️ Setup and Installation
 Prerequisites
@@ -138,33 +112,7 @@ Use "👎 Disapprove & Next Idea" to view the next suggested idea.
 
 Refine Idea: Use the "Refine This Idea?" text area and "🔄 Refine Current Idea" button to give specific feedback to the AI and generate a refined version of the current idea.
 
-Generate Literature Summary:
 
-The AI will generate a literature summary based on your approved idea.
-
-Ask Follow-up Questions: Use the "Ask a Follow-up Question (AI)" section to get more details or clarifications from the AI.
-
-AI-Suggested Search Queries: Click "Suggest Search Queries" to get keywords and links for external academic databases.
-
-Download: Use "Download Summary as DOCX" to save the summary.
-
-Predict Properties / Experimental Approach:
-
-The AI will provide suggested properties or an experimental approach.
-
-Chemical Structure Lookup: Enter a chemical name or CAS number to fetch and display its structure. You can download the image.
-
-Ask Follow-up Questions: Continue asking the AI questions related to the properties or chemical lookups.
-
-AI-Suggested Search Queries: Get more search query suggestions.
-
-Final Research Proposal Overview:
-
-All generated content is compiled into a single overview.
-
-Download: Use "Download Proposal as DOCX" to save the complete proposal.
-
-Click "Start New Research" to clear all session data and begin a new workflow.
 
 ⚠️ Important Notes
 SSL Certificate Warning: You might see SSLError warnings in your console. This is due to a workaround (verify=False in chemical_lookup.py) to bypass SSL certificate verification for external API calls, which is sometimes necessary in certain environments. This is not recommended for production deployments as it reduces security.
